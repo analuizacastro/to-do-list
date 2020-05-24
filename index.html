@@ -8,18 +8,21 @@
     <title>To do List</title>
 </head>
 <body>
-    <h1>What's your plan for today?</h1>
-    <div id="container">
-        <form action="">
-            <label>
-                <i class="material-icons gray">create</i>
-                <input type="text" id="inputName" placeholder="Type your next plan..">
-            </label>
-        </form>
+    <div class="bg-image">
+        <div id="container">
+            <img src="/.github/todo-list.png" alt="Logo todo-list">
+            <h1>What's your plan for today?</h1>
+            <h3>Organize your day and focus on what's important</h3>
+            <form action="" id="input">
+                <label>
+                    <i class="material-icons gray">create</i>
+                    <input type="text" id="inputName" placeholder="Type your next plan..">
+                </label>
+            </form>
+            <h2>Tasks for today</h2>
+            <div id="names"></div>
+        </div>
     </div>
-        <h2>Tasks for today</h2>
-        <div id="names"></div>
-
     <script src="/script.js"></script>
 </body>
 </html>
