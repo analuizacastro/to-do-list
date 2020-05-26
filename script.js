@@ -1,16 +1,15 @@
-window.addEventListener("load", start);
+let globalNames = ['Skype with Mike', 'Walk my dog :)', 'Learn a new recipe'];
+let inputName = null;
+let isEditing = false;
+let currentIndex = null;
 
-var globalNames = ['Skype with Mike', 'Walk my dog :)', 'Learn a new recipe'];
-var inputName = null;
-var isEditing = false;
-
-function start() {
+window.addEventListener("load", () => {
   inputName = document.querySelector("#inputName");
   
   preventFormSubmit();
   activateInput();
   render();
-}
+});
 
 function preventFormSubmit() {
   function handleFormSubtmit(event) {
@@ -23,17 +22,24 @@ function preventFormSubmit() {
 
 function activateInput() {
   function insertName(newName) {
-    globalNames.push(newName);
-    render();
+  //  globalNames.push(newName);
+    globalNames = [...globalNames, newName];
+  }
+
+  function updateName(newName) {
+    globalNames[currentIndex] = newName;
   }
 
   function handleTyping() {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && event.target.value.trim()!== '') {
       if (isEditing) {
+        updateName(event.target.value);
       } else {
         insertName(event.target.value);
       }
+      render();
       isEditing = false;
+      clearInput();
     }
   }
 
@@ -43,15 +49,10 @@ function activateInput() {
 
 function render() {
   function createDeleteButton(index) {
-    function deleteName(index) {
-      globalNames.splice(index, 1);
+    function deleteName() {
+      globalNames = globalNames.filter((_, i) => i !== index);
       render();
     }
-
-    // var button = document.createElement('button');
-    // button.textContent = '✓';
-    // button.classList.add('deleteButton');
-    // button.addEventListener('click', deleteName);
 
     var icon = document.createElement("i");
     icon.classList.add("material-icons");
@@ -63,11 +64,12 @@ function render() {
     return icon;
   }
 
-  function createSpan(name) {
+  function createSpan(name, index) {
     function editItem() {
       inputName.value = name;
       inputName.focus();
       isEditing = true;
+      currentIndex = index;
     }
 
     var span = document.createElement("span");
@@ -88,7 +90,7 @@ function render() {
 
     var li = document.createElement("li");
     var icon = createDeleteButton(i);
-    var span = createSpan(currentName);
+    var span = createSpan(currentName, i);
 
     var iconEdit = document.createElement("i");
     iconEdit.classList.add("material-icons");
@@ -105,7 +107,7 @@ function render() {
   clearInput();
 }
 
-function clearInput() {
-  inputName.value = "";
+const clearInput = () => {
+  inputName.value = '';
   inputName.focus();
-}
+};
